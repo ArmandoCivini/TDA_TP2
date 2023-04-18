@@ -15,10 +15,10 @@ def cargar_puntos(archivo):
 def calcular_peso(p1, p2, p3):
     return distancia(p1, p2) + distancia(p2, p3) + distancia(p3, p1)
 
-def peso_poligono(triangulaciones, poligono, poligon_start, sub_triang, poligon_len):
-    peso_triangulo = calcular_peso(poligono[poligon_start], poligono[sub_triang], poligono[poligon_start+poligon_len])
-    peso_prev = triangulaciones[poligon_start][sub_triang]
-    peso_post = triangulaciones[sub_triang][poligon_start+poligon_len]
+def peso_poligono(triangulaciones, poligono, poligono_inicio, sub_triang, poligon_len):
+    peso_triangulo = calcular_peso(poligono[poligono_inicio], poligono[sub_triang], poligono[poligono_inicio+poligon_len])
+    peso_prev = triangulaciones[poligono_inicio][sub_triang]
+    peso_post = triangulaciones[sub_triang][poligono_inicio+poligon_len]
     return peso_triangulo + peso_prev + peso_post
 
 def triangular(poligono):
@@ -31,10 +31,10 @@ def triangular(poligono):
             triangulaciones[i][i+1] = 0
     
     for poligon_len in range(2, n):
-        for poligon_start in range(n-poligon_len):
-            triangulaciones[poligon_start][(poligon_start+poligon_len)] = \
-                min([peso_poligono(triangulaciones, poligono, poligon_start, sub_triang, poligon_len) \
-                for sub_triang in range(poligon_start+1,poligon_start+poligon_len)])
+        for poligono_inicio in range(n-poligon_len):
+            triangulaciones[poligono_inicio][(poligono_inicio+poligon_len)] = \
+                min([peso_poligono(triangulaciones, poligono, poligono_inicio, sub_triang, poligon_len) \
+                for sub_triang in range(poligono_inicio+1,poligono_inicio+poligon_len)])
 
     return triangulaciones[0][n-1]
 
